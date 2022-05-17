@@ -1,0 +1,24 @@
+{
+  "name": "processing-rncp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint-fix": "eslint --ignore-path .gitignore --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bgiraudr/processing-rncp.git"
+  },
+  "author": "Benjamin Giraud-renard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bgiraudr/processing-rncp/issues"
+  },
+  "homepage": "https://github.com/bgiraudr/processing-rncp#readme"
+}
