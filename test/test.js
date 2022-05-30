@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test'
+process.env.NODE_ENV = 'local-dev'
 const fs = require('fs-extra')
 const config = require('config')
 const axios = require('axios')
@@ -20,7 +20,7 @@ describe('Station service processing', () => {
     const headers = { 'x-apiKey': config.dataFairAPIKey }
     const axiosInstance = axios.create({
       baseURL: config.dataFairUrl,
-      headers: headers,
+      headers,
       maxContentLength: Infinity,
       maxBodyLength: Infinity
     })
@@ -33,16 +33,18 @@ describe('Station service processing', () => {
       return Promise.reject(error.response)
     })
 
-    const pluginConfig = { pluginMessage: 'Hello' }
+    const pluginConfig = { }
 
     const processingConfig = {
       clearFiles: true,
-      datasetMode: 'create',
+      datasetMode: 'update',
       dataset: {
-        title: 'RNCP - test',
-        id: 'rncp-test-id'
+        title: 'RNCP-RS - test',
+        id: 'rncp-rs-test-id'
       },
-      tmpDir: 'data'
+      tmpDir: 'data/tmp',
+      workDir: 'data/work',
+      processFile: 'rs'
     }
 
     const log = {
@@ -59,11 +61,10 @@ describe('Station service processing', () => {
       Object.assign(processingConfig, patch)
     }
 
-    const cwd = process.cwd()
     await fs.ensureDir(processingConfig.tmpDir)
-    process.chdir(processingConfig.tmpDir)
-    // console.log(process.cwd())
-    await processing.run({ pluginConfig, processingConfig, tmpDir: path.resolve('./'), axios: axiosInstance, log, patchConfig })
-    process.chdir(cwd)
+    await fs.ensureDir(processingConfig.workDir)
+    const tmpDir = path.resolve(processingConfig.tmpDir)
+    process.chdir(processingConfig.workDir)
+    await processing.run({ pluginConfig, processingConfig, tmpDir, axios: axiosInstance, log, patchConfig })
   })
 })

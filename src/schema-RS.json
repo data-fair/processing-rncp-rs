@@ -1,0 +1,127 @@
+[
+    {
+        "key": "ID_FICHE",
+        "title": "ID_FICHE",
+        "description": "Identifiant technique de la fiche répertoire.",
+        "type": "string"
+    },
+    {
+        "key": "NUMERO_FICHE",
+        "title": "NUMERO_FICHE",
+        "description": "La structure alphanumérique des codes des fiches pour les répertoires nationaux est normative.",
+        "type": "string"
+    },
+    {
+        "key": "INTITULE",
+        "title": "INTITULE",
+        "description": "Intitulé de la certification défini lors de la décision d'enregistrement.",
+        "type": "string",
+        "x-refersTo": "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    {
+        "key": "ETAT_FICHE",
+        "title": "ETAT_FICHE",
+        "description": "Identifie l’état dans lequel est la fiche.",
+        "type": "string"
+    },
+    {
+        "key": "FORMACODES",
+        "title": "FORMACODES",
+        "description": "Codification utilisée pour désigner un descripteur (ou mot-clé) issu du thesaurus Formacode.",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "FORMALIBELLES",
+        "title": "FORMALIBELLES",
+        "description": "Libellé correspondant au descripteur du thesaurus formacode renseigné.",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "CODES_NSF",
+        "title": "CODES_NSF",
+        "description": "Code de la formation de la nomenclature des spécialités de formation (NSF) qui a pour objectif de couvrir l'ensemble des formations professionnelles",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "INTITULE_NSF",
+        "title": "INTITULE_NSF",
+        "description": "Intitulé de la formation de la nomenclature des spécialités de formation (NSF) qui a pour objectif de couvrir l'ensemble des formations professionnelles",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "CERTIFICATEURS",
+        "title": "CERTIFICATEURS",
+        "description": "Les certificateurs sont les organismes qui délivrent une/des certification(s) dont elles sont responsables",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "CAPACITES_ATTESTEES",
+        "title": "CAPACITES_ATTESTEES",
+        "description": "Champ Compétences attestées du résumé du référentiel de la certification.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "LIEN_URL_DESCRIPTION",
+        "title": "LIEN_URL_DESCRIPTION",
+        "description": "Lien internet vers le descriptif de la certification.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "REGLEMENTATIONS_ACTIVITES",
+        "title": "REGLEMENTATIONS_ACTIVITES",
+        "description": "Réglementations particulières pour exercer les activités visées par la certification.",
+        "type": "string"
+    },
+    {
+        "key": "DATE_FIN_ENREGISTREMENT",
+        "title": "DATE_FIN_ENREGISTREMENT",
+        "description": "La date de fin d’enregistrement correspond à la <DATE_DECISION> + <DUREE_ENREGISTREMENT> pour les enregistrements sur demande, elle est libre pour les enregistrements de droit.Lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive à J+1 de la date d'échéance de l'enregistrement J",
+        "type": "string"
+    },
+    {
+        "key": "TYPE_ENREGISTREMENT",
+        "title": "TYPE_ENREGISTREMENT",
+        "description": "Enregistrement sur demande et enregistrement de droit aux répertoires nationaux.",
+        "type": "string"
+    },
+    {
+        "key": "OBJECTIFS_CONTEXTE",
+        "title": "OBJECTIFS_CONTEXTE",
+        "description": "Champ Objectifs et contexte de la certification du résumé de la certification professionnelle.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "NIVEAU_MAITRISE_COMPETENCES",
+        "title": "NIVEAU_MAITRISE_COMPETENCES",
+        "description": "Niveau de maîtrise des compétences pour certaines certifications (exemple : les certifications de langue selon le Cadre européen commun de référence pour les langues).",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "MODALITES_RENOUVELLEMENT",
+        "title": "MODALITES_RENOUVELLEMENT",
+        "description": "Modalités de renouvellement si la certification a une durée de validité.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "VALIDATION_PARTIELLE",
+        "title": "VALIDATION_PARTIELLE",
+        "description": "Le cas échéant, possibilité de validation partielle.",
+        "type": "boolean"
+    },
+    {
+        "key": "ACTIF",
+        "title": "ACTIF",
+        "description": "Une fiche est Active lorsque l'enregistrement de la certification en en cours. L'accès à la certification est possible. Une fiche est Inactive lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive à J+1 de la date d'échéance de l'enregistrement J. L'accès à la certification n'est plus possible.",
+        "type": "boolean"
+    }
+]

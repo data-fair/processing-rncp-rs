@@ -20,5 +20,24 @@
   "bugs": {
     "url": "https://github.com/bgiraudr/processing-rncp/issues"
   },
-  "homepage": "https://github.com/bgiraudr/processing-rncp#readme"
+  "homepage": "https://github.com/bgiraudr/processing-rncp#readme",
+  "devDependencies": {
+    "axios": "^0.27.2",
+    "chalk": "^4.1.2",
+    "config": "^3.3.7",
+    "eslint": "^8.16.0",
+    "eslint-config-standard": "^17.0.0",
+    "mocha": "^10.0.0",
+    "moment": "^2.29.3",
+    "standard": "^16.0.4"
+  },
+  "dependencies": {
+    "csv": "^6.0.5",
+    "fs-extra": "^10.1.0",
+    "html-to-text": "^8.2.0",
+    "path": "^0.12.7",
+    "util": "^0.12.4",
+    "xml2js": "^0.4.23",
+    "pump": "^3.0.0"
+  }
 }

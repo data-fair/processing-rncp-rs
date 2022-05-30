@@ -13,7 +13,8 @@ function displayBytes (aSize) {
 }
 
 module.exports = async (processingConfig, tmpDir, axios, log, patchConfig) => {
-  const datasetSchema = require(`./schema_${processingConfig.processFile}.json`)
+  const processFile = processingConfig.processFile.toUpperCase()
+  const datasetSchema = require(`./schema-${processFile}.json`)
   const formData = new FormData()
 
   if (processingConfig.datasetMode === 'update') {
@@ -24,26 +25,30 @@ module.exports = async (processingConfig, tmpDir, axios, log, patchConfig) => {
     await log.step('Création du jeu de données')
   }
 
-  const filePath = path.join(tmpDir, 'sitadel-' + processingConfig.processFile + '.csv')
+  const filePath = path.join(tmpDir, `Compétences-${processFile}.csv`)
   formData.append('file', fs.createReadStream(filePath), { filename: path.parse(filePath).base })
 
   formData.getLength = util.promisify(formData.getLength)
   const contentLength = await formData.getLength()
   await log.info(`chargement de (${displayBytes(contentLength)})`)
 
-  const dataset = (await axios({
-    method: 'post',
-    url: (processingConfig.dataset && processingConfig.dataset.id) ? `api/v1/datasets/${processingConfig.dataset.id}` : 'api/v1/datasets',
-    data: formData,
-    maxContentLength: Infinity,
-    maxBodyLength: Infinity,
-    headers: { ...formData.getHeaders(), 'content-length': contentLength }
-  })).data
+  try {
+    const dataset = (await axios({
+      method: 'post',
+      url: (processingConfig.dataset && processingConfig.dataset.id) ? `api/v1/datasets/${processingConfig.dataset.id}` : 'api/v1/datasets',
+      data: formData,
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
+      headers: { ...formData.getHeaders(), 'content-length': contentLength }
+    })).data
 
-  if (processingConfig.datasetMode === 'update') {
-    await log.info(`jeu de donnée mis à jour, id="${dataset.id}", title="${dataset.title}"`)
-  } else {
-    await log.info(`jeu de donnée créé, id="${dataset.id}", title="${dataset.title}"`)
-    await patchConfig({ datasetMode: 'update', dataset: { id: dataset.id, title: dataset.title } })
+    if (processingConfig.datasetMode === 'update') {
+      await log.info(`jeu de donnée mis à jour, id="${dataset.id}", title="${dataset.title}"`)
+    } else {
+      await log.info(`jeu de donnée créé, id="${dataset.id}", title="${dataset.title}"`)
+      await patchConfig({ datasetMode: 'update', dataset: { id: dataset.id, title: dataset.title } })
+    }
+  } catch (err) {
+    await log.error(err)
   }
 }

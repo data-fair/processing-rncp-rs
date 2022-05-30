@@ -13,7 +13,7 @@
           "type": "object",
           "required": ["title"],
           "properties": {
-            "title": { "type": "string", "title": "Titre du jeu de donnée", "default": "Sitadel" }
+            "title": { "type": "string", "title": "Titre du jeu de donnée", "default": "Certifications" }
           }
         }
       }
@@ -38,11 +38,20 @@
     }]
   }, {
     "title": "Paramètres",
+    "required": "processFile",
     "properties": {
       "clearFiles": {
         "title": "supprimer les fichiers téléchargés",
         "type": "boolean",
         "default": true
+      },
+      "processFile": {
+        "type": "string",
+        "title": "Fichier à traiter",
+        "oneOf": [
+          { "const": "rncp", "title": "Répertoire National Des Certifications Professionnelles (RNCP)" },
+          { "const": "rs", "title": "Répertoire Spécifique (RS)" }
+        ]
       }
     }
   }]

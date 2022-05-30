@@ -1,0 +1,192 @@
+[
+    {
+        "key": "ID_FICHE",
+        "title": "ID_FICHE",
+        "description": "Identifiant technique de la fiche répertoire.",
+        "type": "string"
+    },
+    {
+        "key": "NUMERO_FICHE",
+        "title": "NUMERO_FICHE",
+        "description": "La structure alphanumérique des codes des fiches pour les répertoires nationaux est normative.",
+        "type": "string"
+    },
+    {
+        "key": "INTITULE",
+        "title": "INTITULE",
+        "description": "Intitulé de la certification défini lors de la décision d'enregistrement.",
+        "type": "string",
+        "x-refersTo": "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    {
+        "key": "ABREGE_CODES",
+        "title": "ABREGE_CODES",
+        "description": "L’abrégé est la typologie du diplôme délivré au nom de l’Etat enregistré de droit au RNCP",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "ABREGE_LIBELLES",
+        "title": "ABREGE_LIBELLES",
+        "description": "L’abrégé est la typologie du diplôme délivré au nom de l’Etat enregistré de droit au RNCP",
+        "type": "string"
+    },
+    {
+        "key": "ETAT_FICHE",
+        "title": "ETAT_FICHE",
+        "description": "Identifie l’état dans lequel est la fiche.",
+        "type": "string"
+    },
+    {
+        "key": "NOMENCLATURE_EUROPE_NIVEAU",
+        "title": "NOMENCLATURE_EUROPE_NIVEAU",
+        "description": "Le cadre national des certifications professionnelles est la nouvelle nomenclature à laquelle l’ensemble des ministères et organismes certificateurs doivent se référer pour déterminer le niveau de qualification des certifications professionnelles enregistrées au RNCP.",
+        "type": "string"
+    },
+    {
+        "key": "NOMENCLATURE_EUROPE_INTITULE",
+        "title": "NOMENCLATURE_EUROPE_INTITULE",
+        "description": "Le cadre national des certifications professionnelles est la nouvelle nomenclature à laquelle l’ensemble des ministères et organismes certificateurs doivent se référer pour déterminer le niveau de qualification des certifications professionnelles enregistrées au RNCP.",
+        "type": "string"
+    },
+    {
+        "key": "TYPE_EMPLOI_ACCESSIBLES",
+        "title": "TYPE_EMPLOI_ACCESSIBLES",
+        "description": "Type d'emploi accessibles après certification.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "CODES_ROME",
+        "title": "CODES_ROME",
+        "description": "Le cadre national des certifications professionnelles est la nouvelle nomenclature à laquelle l’ensemble des ministères et organismes certificateurs doivent se référer pour déterminer le niveau de qualification des certifications professionnelles enregistrées au RNCP.",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "LIBELLES_ROME",
+        "title": "LIBELLES_ROME",
+        "description": "Libellé correspondant au code du Répertoire opérationnel des métiers et des emplois (ROME) est un répertoire établi par Pôle emploi.",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "CODES_NSF",
+        "title": "CODES_NSF",
+        "description": "Code de la formation de la nomenclature des spécialités de formation (NSF) qui a pour objectif de couvrir l'ensemble des formations professionnelles",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "INTITULE_NSF",
+        "title": "INTITULE_NSF",
+        "description": "Intitulé de la formation de la nomenclature des spécialités de formation (NSF) qui a pour objectif de couvrir l'ensemble des formations professionnelles",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "CERTIFICATEURS",
+        "title": "CERTIFICATEURS",
+        "description": "Les certificateurs sont les organismes qui délivrent une/des certification(s) dont elles sont responsables",
+        "type": "string",
+        "separator": "; "
+    },
+    {
+        "key": "ACTIVITES_VISEES",
+        "title": "ACTIVITES_VISEES",
+        "description": "Champ Activités visées du résumé du référentiel de la certification.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "CAPACITES_ATTESTEES",
+        "title": "CAPACITES_ATTESTEES",
+        "description": "Champ Compétences attestées du résumé du référentiel de la certification.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "LIEN_URL_DESCRIPTION",
+        "title": "LIEN_URL_DESCRIPTION",
+        "description": "Liens internet vers le descriptif de la certification.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "REGLEMENTATIONS_ACTIVITES",
+        "title": "REGLEMENTATIONS_ACTIVITES",
+        "description": "Réglementations particulières pour exercer les activités visées par la certification.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "OBJECTIFS_CONTEXTE",
+        "title": "OBJECTIFS_CONTEXTE",
+        "description": "Champ Objectifs et contexte de la certification du résumé de la certification professionnelle.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "SI_JURY_FI",
+        "title": "SI_JURY_FI",
+        "description": "Voie d'accès à la certification après un parcours de formation sous statut d'élève.",
+        "type": "boolean"
+    },
+    {
+        "key": "JURY_FI",
+        "title": "JURY_FI",
+        "description": "Compositions des jurys pour la voie d'accès à la certification après un parcours de formation sous statut d'élève.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "SI_JURY_CA",
+        "title": "SI_JURY_CA",
+        "description": "Voie d'accès à la certification en contrat d'apprentissage.",
+        "type": "boolean"
+    },
+    {
+        "key": "JURY_CA",
+        "title": "JURY_CA",
+        "description": "Compositions des jurys pour la voie d'accès à la certification en contrat d'apprentissage.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "SI_JURY_FC",
+        "title": "SI_JURY_FC",
+        "description": "Voie d'accès à la certification après un parcours de formation continue.",
+        "type": "boolean"
+    },
+    {
+        "key": "SI_JURY_CQ",
+        "title": "SI_JURY_CQ",
+        "description": "Voie d'accès à la certification en contrat de professionnalisation.",
+        "type": "boolean"
+    },
+    {
+        "key": "SI_JURY_CL",
+        "title": "SI_JURY_CL",
+        "description": "Voie d'accès à la certification par candidature individuelle.",
+        "type": "boolean"
+    },
+    {
+        "key": "JURY_CL",
+        "title": "JURY_CL",
+        "description": "Compositions des jurys pour la voie d’accès par candidature individuelle.",
+        "type": "string",
+        "x-display": "markdown"
+    },
+    {
+        "key": "SI_JURY_VAE",
+        "title": "SI_JURY_VAE",
+        "description": "Voie d'accès à la certification par expérience : avec la validation des acquis de l’expérience (VAE) pour les certifications enregistrées au RNCP ou hors dispositif VAE pour les certifications enregistrées au RS",
+        "type": "boolean"
+    },
+    {
+        "key": "ACTIF",
+        "title": "ACTIF",
+        "description": "Une fiche est Active lorsque l'enregistrement de la certification en en cours. L'accès à la certification est possible. Une fiche est Inactive lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive à J+1 de la date d'échéance de l'enregistrement J. L'accès à la certification n'est plus possible.",
+        "type": "boolean"
+    }
+]
