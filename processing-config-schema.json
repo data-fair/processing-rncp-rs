@@ -38,7 +38,7 @@
     }]
   }, {
     "title": "Paramètres",
-    "required": "processFile",
+    "required": ["processFile"],
     "properties": {
       "clearFiles": {
         "title": "supprimer les fichiers téléchargés",
