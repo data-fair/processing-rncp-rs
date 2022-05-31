@@ -1,6 +1,6 @@
 {
   "name": "@data-fair/processing-rncp-rs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Process RNCP and RS xml files to generate a dataset.",
   "main": "index.js",
   "directories": {
