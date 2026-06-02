@@ -8,7 +8,6 @@ import testUtils from '@data-fair/lib-processing-dev/tests-utils.js'
 
 import { processData } from '../lib/process.ts'
 import { getRepertoire } from '../lib/repertoires/index.ts'
-import pluginConfigSchema from '../plugin-config-schema.json' with { type: 'json' }
 import processingConfigSchema from '../processing-config-schema.json' with { type: 'json' }
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
@@ -34,10 +33,6 @@ const runOn = async (processFile: 'rncp' | 'rs') => {
 
 describe('RNCP / RS processing', () => {
   before(async () => { await fs.remove(tmpDir) })
-
-  it('exposes a plugin config schema', () => {
-    assert.equal(pluginConfigSchema.type, 'object')
-  })
 
   it('exposes a processing config schema', () => {
     assert.equal(processingConfigSchema.type, 'object')

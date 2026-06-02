@@ -1,4 +1,4 @@
-# @data-fair/processing-rncp-rs
+# <img alt="Data FAIR logo" src="https://cdn.jsdelivr.net/gh/data-fair/data-fair@master/ui/public/assets/logo.svg" width="30"> @data-fair/processing-rncp-rs
 
 Plugin de traitement data-fair qui génère et met à jour des jeux de données à partir des exports
 XML de **France Compétences** publiés sur [data.gouv.fr](https://www.data.gouv.fr/fr/datasets/repertoire-national-des-certifications-professionnelles-et-repertoire-specifique/) :
@@ -9,6 +9,14 @@ XML de **France Compétences** publiés sur [data.gouv.fr](https://www.data.gouv
 Le traitement cible le **flux V4-1** (le format courant). Il télécharge l'export le plus récent,
 le transforme en CSV (parsing **en streaming**, pour supporter les fichiers de plusieurs centaines
 de Mo) et crée ou met à jour le jeu de données *fichier* correspondant, schéma et description inclus.
+
+## Features
+
+- **Téléchargement automatique** — récupère l'export le plus récent du flux V4-1 de France Compétences sur data.gouv.fr.
+- **Parsing en streaming** — transforme l'XML en CSV via un parseur SAX, pour supporter les fichiers de plusieurs centaines de Mo.
+- **RNCP & RS** — traite au choix le Répertoire national des certifications professionnelles ou le Répertoire spécifique.
+- **Schéma figé** — produit un schéma curaté et stable, enrichi de titres, descriptions et concepts.
+- **Création / mise à jour** — crée un nouveau jeu de données *fichier* ou met à jour un jeu existant.
 
 ## Configuration
 
@@ -49,4 +57,14 @@ lib/process.ts             parsing XML streaming (sax) → CSV
 lib/xml-stream.ts          émet un objet par <FICHE> sans charger tout le fichier
 lib/upload.ts              envoi du CSV + schéma + description à data-fair
 lib/repertoires/{rncp,rs}  schéma de sortie + extraction (mapping) par répertoire
+```
+
+## Release
+
+Les plugins de traitement sont récupérés depuis le registre npm via un filtre sur le mot-clé « data-fair-processings-plugin ». Publier un plugin revient donc à publier le paquet npm :
+
+```bash
+npm version minor
+npm publish
+git push --follow-tags
 ```
