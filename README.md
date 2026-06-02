@@ -61,10 +61,9 @@ lib/repertoires/{rncp,rs}  schéma de sortie + extraction (mapping) par réperto
 
 ## Release
 
-Les plugins de traitement sont récupérés depuis le registre npm via un filtre sur le mot-clé « data-fair-processings-plugin ». Publier un plugin revient donc à publier le paquet npm :
+La publication est gérée automatiquement par la CI : le plugin est poussé vers le registre data-fair (`@data-fair/registry`), pas vers le registre npm public — il n'y a plus de `npm publish` manuel. Un push sur `main`/`master` publie vers le registre de staging ; un tag `v*` publie en production :
 
 ```bash
-npm version minor
-npm publish
-git push --follow-tags
+npm version minor       # montée de version + tag v*
+git push --follow-tags  # la CI publie vers le registre de production
 ```
