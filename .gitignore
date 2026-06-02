@@ -105,3 +105,8 @@ dist
 
 config/local-*
 data/
+test-data/
+.type/
+
+# personal working artifacts (superpowers) - kept local, never committed
+docs/superpowers/
