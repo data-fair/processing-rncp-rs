@@ -8,7 +8,7 @@ import testUtils from '@data-fair/lib-processing-dev/tests-utils.js'
 
 import { processData } from '../lib/process.ts'
 import { getRepertoire } from '../lib/repertoires/index.ts'
-import { buildDataFairSchema, escapeKey } from '../lib/upload.ts'
+import { buildDataFairSchema } from '../lib/upload.ts'
 import processingConfigSchema from '../processing-config-schema.json' with { type: 'json' }
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
@@ -46,27 +46,45 @@ describe('RNCP / RS processing', () => {
     for (const legacy of ['ID_FICHE', 'NUMERO_FICHE', 'INTITULE', 'ABREGE_CODES', 'ETAT_FICHE', 'SI_JURY_FI', 'JURY_FI', 'CERTIFICATEURS', 'ACTIF']) {
       assert.ok(keys.includes(legacy), `colonne legacy manquante : ${legacy}`)
     }
-    // a few additions
-    for (const added of ['SIRET_CERTIFICATEURS', 'STATISTIQUES_PROMOTIONS', 'NOUVELLES_CERTIFICATIONS', 'FORMACODES']) {
+    // a few additions (added columns use lower-case keys)
+    for (const added of ['siret_certificateurs', 'statistiques_promotions', 'nouvelles_certifications', 'formacodes']) {
       assert.ok(keys.includes(added), `colonne ajoutée manquante : ${added}`)
     }
     // no duplicate keys
     assert.equal(new Set(keys).size, keys.length, 'clés de colonnes dupliquées')
   })
 
-  it('exposes a data-fair schema whose keys match data-fair column escaping', () => {
+  it('builds a data-fair schema whose keys merge by exact match (legacy escaping)', () => {
     for (const processFile of ['rncp', 'rs'] as const) {
       const repertoire = getRepertoire(processFile)
       const dfSchema = buildDataFairSchema(repertoire.schema)
       for (let i = 0; i < dfSchema.length; i++) {
         const field = dfSchema[i]
         const originalKey = repertoire.schema[i].key
-        // data-fair slugifies CSV headers to lower-case keys and merges metadata by exact key match,
-        // so our schema key must already be the escaped form, with the original header kept as label
-        assert.equal(field.key, escapeKey(originalKey), `clé non échappée : ${originalKey}`)
-        assert.equal(field.key, field.key.toLowerCase(), `clé non minuscule : ${field.key}`)
+        // Under the legacy escaping algorithm data-fair keeps the CSV header verbatim as the key,
+        // so the curated key is unchanged and merges by exact match, with the header kept as x-originalName.
+        assert.equal(field.key, originalKey, `clé modifiée : ${originalKey}`)
         assert.equal(field['x-originalName'], originalKey, `x-originalName perdu pour ${originalKey}`)
         assert.ok(field.title, `titre manquant pour ${originalKey}`)
+      }
+    }
+  })
+
+  it('keeps the legacy production keys byte-for-byte and lower-cases added columns', () => {
+    // Keys of the legacy production datasets (koumoul.com/.../competences-rncp & competences-rs).
+    // They must stay identical so the recreated datasets remain 100 % compatible.
+    const legacyKeys = {
+      rncp: ['ID_FICHE', 'NUMERO_FICHE', 'INTITULE', 'ABREGE_CODES', 'ABREGE_LIBELLES', 'ETAT_FICHE', 'NOMENCLATURE_EUROPE_NIVEAU', 'NOMENCLATURE_EUROPE_INTITULE', 'TYPE_EMPLOI_ACCESSIBLES', 'CODES_ROME', 'LIBELLES_ROME', 'CODES_NSF', 'INTITULE_NSF', 'CERTIFICATEURS', 'ACTIVITES_VISEES', 'CAPACITES_ATTESTEES', 'LIEN_URL_DESCRIPTION', 'REGLEMENTATIONS_ACTIVITES', 'OBJECTIFS_CONTEXTE', 'SI_JURY_FI', 'JURY_FI', 'SI_JURY_CA', 'JURY_CA', 'SI_JURY_FC', 'SI_JURY_CQ', 'SI_JURY_CL', 'JURY_CL', 'SI_JURY_VAE', 'ACTIF'],
+      rs: ['ID_FICHE', 'NUMERO_FICHE', 'INTITULE', 'ETAT_FICHE', 'FORMACODES', 'FORMALIBELLES', 'CODES_NSF', 'INTITULE_NSF', 'CERTIFICATEURS', 'CAPACITES_ATTESTEES', 'LIEN_URL_DESCRIPTION', 'REGLEMENTATIONS_ACTIVITES', 'DATE_FIN_ENREGISTREMENT', 'TYPE_ENREGISTREMENT', 'OBJECTIFS_CONTEXTE', 'NIVEAU_MAITRISE_COMPETENCES', 'MODALITES_RENOUVELLEMENT', 'VALIDATION_PARTIELLE', 'ACTIF']
+    }
+    for (const processFile of ['rncp', 'rs'] as const) {
+      const keys = getRepertoire(processFile).schema.map((f) => f.key)
+      const legacy = legacyKeys[processFile]
+      // historical columns: same keys, same order, at the front of the schema
+      assert.deepEqual(keys.slice(0, legacy.length), legacy, `clés historiques modifiées (${processFile})`)
+      // added columns: lower-case only
+      for (const key of keys.slice(legacy.length)) {
+        assert.equal(key, key.toLowerCase(), `colonne ajoutée non minuscule : ${key}`)
       }
     }
   })

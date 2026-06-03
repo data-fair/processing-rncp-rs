@@ -47,6 +47,12 @@
           { "const": "rncp", "title": "Répertoire National Des Certifications Professionnelles (RNCP)" },
           { "const": "rs", "title": "Répertoire Spécifique (RS)" }
         ]
+      },
+      "updateSchema": {
+        "type": "boolean",
+        "title": "Mettre à jour le schéma",
+        "description": "Lors d'une mise à jour, ré-applique le schéma (titres, descriptions et concepts des colonnes). Sans effet à la création, où le schéma est toujours appliqué.",
+        "default": false
       }
     }
   }]

@@ -14,4 +14,9 @@ export interface ProcessingConfig {
   }
   /** Répertoire to process: RNCP or RS. */
   processFile: ProcessFile
+  /**
+   * On update, whether to re-apply the curated schema (column titles/descriptions/concepts).
+   * Ignored on create, where the schema is always applied. Defaults to false.
+   */
+  updateSchema?: boolean
 }
