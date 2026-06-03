@@ -17,13 +17,13 @@ export const run: RunFunction<ProcessingConfig> = async (context) => {
   shouldStop = false
   const { processingConfig, tmpDir, log } = context
 
-  const xmlPath = await download(context)
+  const { xmlPath, sourceModified } = await download(context)
   if (shouldStop) return
 
   const { csvPath } = await processData(context, xmlPath)
   if (shouldStop) return
 
-  await upload(context, csvPath)
+  await upload(context, csvPath, sourceModified)
 
   if (processingConfig.clearFiles) {
     await log.info('Suppression des fichiers téléchargés')

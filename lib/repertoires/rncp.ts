@@ -10,6 +10,8 @@ Les certifications enregistrées au **RNCP** (classées par niveau de qualificat
 
 Jeu de données généré à partir du flux V4-1 publié sur data.gouv.fr (mise à jour hebdomadaire).`
 
+const DATASET_SUMMARY = 'Le Répertoire national des certifications professionnelles (RNCP) liste les diplômes et titres à finalité professionnelle reconnus par l’État français. Géré par France compétences, il recense pour chaque certification son niveau de qualification, ses secteurs et métiers visés, ses organismes certificateurs et sa période de validité, pour orienter actifs, employeurs et organismes de formation.'
+
 const schema: Field[] = [
   // ---- Colonnes historiques (ordre conservé pour la stabilité du jeu de données) ----
   { key: 'ID_FICHE', type: 'integer', title: 'Identifiant de fiche', description: 'Identifiant technique de la fiche répertoire.', extract: (f) => text(f, 'ID_FICHE') },
@@ -89,5 +91,6 @@ export const rncp: Repertoire = {
   code: 'RNCP',
   datasetTitle: 'Certifications RNCP',
   datasetDescription: DATASET_DESCRIPTION,
+  datasetSummary: DATASET_SUMMARY,
   schema
 }

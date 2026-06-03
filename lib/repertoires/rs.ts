@@ -10,6 +10,8 @@ Les certifications et habilitations enregistrées au **RS** correspondent à des
 
 Jeu de données généré à partir du flux V4-1 publié sur data.gouv.fr (mise à jour hebdomadaire).`
 
+const DATASET_SUMMARY = 'Le Répertoire spécifique (RS), géré par France compétences, liste les certifications et habilitations professionnelles complémentaires aux certifications du RNCP (habilitations réglementaires, certifications professionnalisantes, compétences transversales). Pour chaque fiche : intitulé, organismes certificateurs, niveaux, compétences attestées et secteurs d’activité. Ressource clé pour la formation, la VAE et l’insertion professionnelle.'
+
 const schema: Field[] = [
   // ---- Colonnes historiques (ordre conservé pour la stabilité du jeu de données) ----
   { key: 'ID_FICHE', type: 'integer', title: 'Identifiant de fiche', description: 'Identifiant technique de la fiche répertoire.', extract: (f) => text(f, 'ID_FICHE') },
@@ -74,5 +76,6 @@ export const rs: Repertoire = {
   code: 'RS',
   datasetTitle: 'Certifications RS',
   datasetDescription: DATASET_DESCRIPTION,
+  datasetSummary: DATASET_SUMMARY,
   schema
 }

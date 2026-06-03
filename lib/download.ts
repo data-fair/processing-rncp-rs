@@ -15,13 +15,28 @@ interface DataGouvResource {
   type: string
   title: string
   url: string
+  /** ISO date-time of the last modification of this resource on data.gouv.fr. */
+  last_modified?: string
+}
+
+export interface DownloadResult {
+  /** Absolute path of the extracted .xml file to process. */
+  xmlPath: string
+  /** Modification date of the source export on data.gouv.fr (YYYY-MM-DD), if known. */
+  sourceModified?: string
+}
+
+/** Extract a YYYY-MM-DD date from the resource (last_modified field, else the date suffix of its title). */
+const resourceDate = (resource: DataGouvResource): string | undefined => {
+  if (resource.last_modified) return resource.last_modified.slice(0, 10)
+  return resource.title.match(/\d{4}-\d{2}-\d{2}/)?.[0]
 }
 
 /**
  * Download the latest V4-1 export for the configured répertoire, then unzip it.
- * @returns the absolute path of the extracted .xml file to process.
+ * @returns the path of the extracted .xml file and the source modification date.
  */
-export const download = async ({ processingConfig, tmpDir, axios, log }: RncpRsProcessingContext): Promise<string> => {
+export const download = async ({ processingConfig, tmpDir, axios, log }: RncpRsProcessingContext): Promise<DownloadResult> => {
   await fs.ensureDir(tmpDir)
   const repertoire = getRepertoire(processingConfig.processFile)
   const token = `-${repertoire.code.toLowerCase()}-` // '-rncp-' or '-rs-'
@@ -44,6 +59,7 @@ export const download = async ({ processingConfig, tmpDir, axios, log }: RncpRsP
   }
 
   const resource = candidates[0]
+  const sourceModified = resourceDate(resource)
   const url = new URL(resource.url)
   const zipPath = path.join(tmpDir, path.parse(url.pathname).base)
   await log.info(`Téléchargement du fichier ${resource.title}`)
@@ -66,5 +82,5 @@ export const download = async ({ processingConfig, tmpDir, axios, log }: RncpRsP
   const xmlFile = files.find((file) => file.toLowerCase().endsWith('.xml') && file.toLowerCase().includes(repertoire.code.toLowerCase()))
   if (!xmlFile) throw new Error(`Aucun fichier XML ${repertoire.code} trouvé après extraction de l'archive.`)
 
-  return path.join(tmpDir, xmlFile)
+  return { xmlPath: path.join(tmpDir, xmlFile), sourceModified }
 }

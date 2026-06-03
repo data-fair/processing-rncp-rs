@@ -24,8 +24,23 @@ export interface Repertoire {
   code: 'RNCP' | 'RS'
   datasetTitle: string
   datasetDescription: string
+  /** Short description shown in dataset cards / catalogs. */
+  datasetSummary: string
   schema: Field[]
 }
+
+/**
+ * Metadata shared by every répertoire (RNCP & RS come from the same data.gouv dataset and producer).
+ * Thématiques (`topics`) et jeux de données liés (`relatedDatasets`) ne sont pas inclus : ils
+ * référencent des identifiants propres à l'instance data-fair, à renseigner manuellement.
+ */
+export const DATASET_CREATOR = 'France compétences'
+export const DATASET_FREQUENCY = 'weekly'
+export const DATASET_LICENSE = {
+  title: 'Licence Ouverte / Open Licence',
+  href: 'https://www.etalab.gouv.fr/licence-ouverte-open-licence'
+}
+export const DATASET_ORIGIN = 'https://www.data.gouv.fr/fr/datasets/repertoire-national-des-certifications-professionnelles-et-repertoire-specifique/'
 
 const isNode = (v: FicheValue | undefined): v is FicheNode =>
   v != null && typeof v === 'object' && !Array.isArray(v)

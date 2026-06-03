@@ -8,7 +8,8 @@ XML de **France Compétences** publiés sur [data.gouv.fr](https://www.data.gouv
 
 Le traitement cible le **flux V4-1** (le format courant). Il télécharge l'export le plus récent,
 le transforme en CSV (parsing **en streaming**, pour supporter les fichiers de plusieurs centaines
-de Mo) et crée ou met à jour le jeu de données *fichier* correspondant, schéma et description inclus.
+de Mo) et crée ou met à jour le jeu de données *fichier* correspondant, schéma, description et
+métadonnées (résumé, producteur, licence, source, fréquence, date de mise à jour de la source) inclus.
 
 ## Features
 
@@ -16,6 +17,7 @@ de Mo) et crée ou met à jour le jeu de données *fichier* correspondant, sché
 - **Parsing en streaming** — transforme l'XML en CSV via un parseur SAX, pour supporter les fichiers de plusieurs centaines de Mo.
 - **RNCP & RS** — traite au choix le Répertoire national des certifications professionnelles ou le Répertoire spécifique.
 - **Schéma figé** — produit un schéma curaté et stable, enrichi de titres, descriptions et concepts.
+- **Métadonnées renseignées** — résumé, producteur (France compétences), licence (Licence Ouverte), origine (data.gouv.fr), fréquence (hebdomadaire) et date de mise à jour de la source. Les thématiques et jeux de données liés restent à renseigner manuellement (identifiants propres à l'instance data-fair).
 - **Création / mise à jour** — crée un nouveau jeu de données *fichier* ou met à jour un jeu existant.
 
 ## Configuration
@@ -55,7 +57,7 @@ lib/execute.ts             orchestration : download → process → upload
 lib/download.ts            sélection de l'export V4-1 le plus récent + unzip
 lib/process.ts             parsing XML streaming (sax) → CSV
 lib/xml-stream.ts          émet un objet par <FICHE> sans charger tout le fichier
-lib/upload.ts              envoi du CSV + schéma + description à data-fair
+lib/upload.ts              envoi du CSV + schéma + description + métadonnées à data-fair
 lib/repertoires/{rncp,rs}  schéma de sortie + extraction (mapping) par répertoire
 ```
 
