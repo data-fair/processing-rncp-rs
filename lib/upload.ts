@@ -29,17 +29,24 @@ export const buildDataFairSchema = (fields: Field[]) => fields.map(({ extract, k
 }))
 
 /**
- * Send the generated CSV to data-fair, together with the curated schema (titles, descriptions,
- * concepts, separators, enums) and the dataset metadata (description, summary, producer, license,
- * origin, update frequency and source modification date), so the processing fully drives the
- * dataset metadata. The dataset stays a file dataset; its id and type are preserved on update.
- * `topics` (thématiques) et `relatedDatasets` ne sont pas gérés ici : ils référencent des
- * identifiants propres à l'instance data-fair et restent à renseigner manuellement.
+ * Send the generated CSV to data-fair with the dataset metadata (description, summary, producer,
+ * license, origin, update frequency and source modification date), then apply the curated schema
+ * (titles, descriptions, concepts, separators, enums) in a second step.
+ *
+ * The schema is NOT sent inline with the file: when a file is imported, data-fair rebuilds the
+ * schema from the CSV headers, and a schema provided alongside the file is discarded (only the raw
+ * column names survive). Pushing it as a separate PATCH once the dataset is finalised works,
+ * because data-fair then merges the curated metadata onto the existing columns by escaped key
+ * (see `escapeKey` / `buildDataFairSchema`).
+ *
+ * The dataset stays a file dataset; its id and type are preserved on update. `topics` (thématiques)
+ * et `relatedDatasets` ne sont pas gérés ici : ils référencent des identifiants propres à l'instance
+ * data-fair et restent à renseigner manuellement.
  *
  * @param sourceModified modification date of the source export on data.gouv.fr (YYYY-MM-DD).
  */
 export const upload = async (context: RncpRsProcessingContext, csvPath: string, sourceModified?: string): Promise<void> => {
-  const { processingConfig, axios, log, patchConfig } = context
+  const { processingConfig, axios, log, patchConfig, ws } = context
   const repertoire = getRepertoire(processingConfig.processFile)
   const schema = buildDataFairSchema(repertoire.schema)
   const isUpdate = processingConfig.datasetMode === 'update'
@@ -47,7 +54,6 @@ export const upload = async (context: RncpRsProcessingContext, csvPath: string, 
   await log.step(isUpdate ? 'Mise à jour du jeu de données' : 'Création du jeu de données')
 
   const formData = new FormData()
-  formData.append('schema', JSON.stringify(schema))
   formData.append('description', repertoire.datasetDescription)
   formData.append('summary', repertoire.datasetSummary)
   formData.append('creator', DATASET_CREATOR)
@@ -80,4 +86,13 @@ export const upload = async (context: RncpRsProcessingContext, csvPath: string, 
     await log.info(`Jeu de données créé, id="${dataset.id}", title="${dataset.title}"`)
     await patchConfig({ datasetMode: 'update', dataset: { id: dataset.id, title: dataset.title } })
   }
+
+  // The file import discards an inline schema, so apply the curated schema once the dataset is
+  // finalised: data-fair then merges titles/descriptions/concepts onto the analysed columns by
+  // escaped key. Wait again afterwards so the run ends only when the dataset is fully re-finalised.
+  if (dataset.status !== 'finalized') await ws.waitForJournal(dataset.id, 'finalize-end')
+  await log.step('Application du schéma')
+  await axios.patch(`api/v1/datasets/${dataset.id}`, { schema })
+  await ws.waitForJournal(dataset.id, 'finalize-end')
+  await log.info(`Schéma appliqué (${schema.length} colonnes)`)
 }
