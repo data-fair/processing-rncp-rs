@@ -11,7 +11,7 @@ import { getRepertoire } from '../lib/repertoires/index.ts'
 import processingConfigSchema from '../processing-config-schema.json' with { type: 'json' }
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
-const tmpDir = path.join(dir, '../test-data')
+const tmpDir = path.join(dir, '../data')
 
 /** Run processData against a fixture and return the produced CSV content. */
 const runOn = async (processFile: 'rncp' | 'rs') => {
