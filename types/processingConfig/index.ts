@@ -14,6 +14,4 @@ export interface ProcessingConfig {
   }
   /** Répertoire to process: RNCP or RS. */
   processFile: ProcessFile
-  /** Remove downloaded files at the end of the run. */
-  clearFiles?: boolean
 }

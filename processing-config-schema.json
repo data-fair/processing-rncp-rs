@@ -40,11 +40,6 @@
     "title": "Paramètres",
     "required": ["processFile"],
     "properties": {
-      "clearFiles": {
-        "title": "supprimer les fichiers téléchargés",
-        "type": "boolean",
-        "default": true
-      },
       "processFile": {
         "type": "string",
         "title": "Fichier à traiter",

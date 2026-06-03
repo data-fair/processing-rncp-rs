@@ -1,6 +1,6 @@
 import config from '#config'
 import { strict as assert } from 'node:assert'
-import { it, describe, before } from 'node:test'
+import { it, describe, beforeEach } from 'node:test'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
@@ -32,7 +32,7 @@ const runOn = async (processFile: 'rncp' | 'rs') => {
 }
 
 describe('RNCP / RS processing', () => {
-  before(async () => { await fs.remove(tmpDir) })
+  beforeEach(async () => { await fs.remove(tmpDir) })
 
   it('exposes a processing config schema', () => {
     assert.equal(processingConfigSchema.type, 'object')
