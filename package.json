@@ -1,6 +1,6 @@
 {
   "name": "@data-fair/processing-rncp-rs",
-  "version": "2.0.0",
+  "version": "1.0.3",
   "description": "Process RNCP and RS (France Compétences, flux V4-1) XML files to generate datasets.",
   "main": "index.ts",
   "type": "module",
