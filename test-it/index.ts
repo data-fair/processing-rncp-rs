@@ -8,6 +8,7 @@ import testUtils from '@data-fair/lib-processing-dev/tests-utils.js'
 
 import { processData } from '../lib/process.ts'
 import { getRepertoire } from '../lib/repertoires/index.ts'
+import { buildDataFairSchema, escapeKey } from '../lib/upload.ts'
 import processingConfigSchema from '../processing-config-schema.json' with { type: 'json' }
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
@@ -51,6 +52,23 @@ describe('RNCP / RS processing', () => {
     }
     // no duplicate keys
     assert.equal(new Set(keys).size, keys.length, 'clés de colonnes dupliquées')
+  })
+
+  it('exposes a data-fair schema whose keys match data-fair column escaping', () => {
+    for (const processFile of ['rncp', 'rs'] as const) {
+      const repertoire = getRepertoire(processFile)
+      const dfSchema = buildDataFairSchema(repertoire.schema)
+      for (let i = 0; i < dfSchema.length; i++) {
+        const field = dfSchema[i]
+        const originalKey = repertoire.schema[i].key
+        // data-fair slugifies CSV headers to lower-case keys and merges metadata by exact key match,
+        // so our schema key must already be the escaped form, with the original header kept as label
+        assert.equal(field.key, escapeKey(originalKey), `clé non échappée : ${originalKey}`)
+        assert.equal(field.key, field.key.toLowerCase(), `clé non minuscule : ${field.key}`)
+        assert.equal(field['x-originalName'], originalKey, `x-originalName perdu pour ${originalKey}`)
+        assert.ok(field.title, `titre manquant pour ${originalKey}`)
+      }
+    }
   })
 
   it('flattens RNCP fiches correctly', async () => {

@@ -2,13 +2,31 @@ import fs from 'fs-extra'
 import path from 'node:path'
 import util from 'node:util'
 import FormData from 'form-data'
+import slug from 'slugify'
 import { formatBytes } from '@data-fair/lib-utils/format/bytes.js'
 import type { RncpRsProcessingContext } from './context.ts'
 import { getRepertoire, type Field } from './repertoires/index.ts'
 import { DATASET_CREATOR, DATASET_FREQUENCY, DATASET_LICENSE, DATASET_ORIGIN } from './repertoires/common.ts'
 
-/** Strip the `extract` function: keep only the data-fair schema metadata for each column. */
-const buildDataFairSchema = (fields: Field[]) => fields.map(({ extract, ...meta }) => meta)
+/**
+ * Reproduce data-fair's default column-key escaping (api `escapeKey`, slugify with these exact
+ * options). data-fair slugifies CSV headers to lower-case keys (`ID_FICHE` -> `id_fiche`), then
+ * merges a provided schema onto the file schema by an exact, case-sensitive key match. So our
+ * curated schema must use the escaped key, otherwise titles/descriptions/concepts are silently
+ * dropped and the dataset shows the raw column names.
+ */
+export const escapeKey = (key: string): string => slug(key, { lower: true, strict: true, replacement: '_' })
+
+/**
+ * Strip the `extract` function and align each column to data-fair's escaped key, keeping the
+ * original (upper-case) header as `x-originalName`, so the curated metadata actually merges onto
+ * the analysed file schema instead of being ignored.
+ */
+export const buildDataFairSchema = (fields: Field[]) => fields.map(({ extract, key, ...meta }) => ({
+  key: escapeKey(key),
+  'x-originalName': key,
+  ...meta
+}))
 
 /**
  * Send the generated CSV to data-fair, together with the curated schema (titles, descriptions,
